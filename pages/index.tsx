@@ -1,33 +1,9 @@
 import api from '@/product/api';
 import Head from 'next/head';
-import { Product } from '@/product/type';
-import {
-    Box,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    Container,
-    Flex,
-    Grid,
-    HStack,
-    Heading,
-    Stack,
-    StackDivider,
-    Text,
-    VStack,
-} from '@chakra-ui/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { useState } from 'react';
-
-interface Props {
-    products: Product[];
-}
+import DataTable from './DataTable';
 
 function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
     return (
         <>
             <Head>
@@ -38,75 +14,7 @@ function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProp
             </Head>
             <main>
                 <h1>Gestión con Google Sheets</h1>
-                <Container backgroundColor='whitesmoke' minWidth='container.md' maxWidth='container.xl' padding={4}>
-                    <Grid gridGap={4}>
-                        <VStack>
-                            {products.map((product: Product) => (
-                                <HStack key={product.id}>
-                                    <Text>{product.id}</Text>
-                                    <Text>{product.modelo}</Text>
-                                    <Text>{product.precio}</Text>
-                                    <Button onClick={() => setSelectedProduct(product)}>Ver</Button>
-                                </HStack>
-                            ))}
-                        </VStack>
-                    </Grid>
-                </Container>
-                <AnimatePresence initial={false}>
-                    {selectedProduct && (
-                        <Flex
-                            as={motion.article}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            alignItems='center'
-                            justifyContent='center'
-                            position='fixed'
-                            top={0}
-                            left={0}
-                            width='100%'
-                            height='100%'
-                            backgroundColor='rgba(0,0,0,0.8)'
-                        >
-                            <Card>
-                                <CardHeader>
-                                    <Heading size='md'>{selectedProduct.modelo}</Heading>
-                                </CardHeader>
-                                <CardBody>
-                                    <Stack divider={<StackDivider />} spacing='4' mb={4}>
-                                        <Box>
-                                            <Heading size='xs' textTransform='uppercase'>
-                                                ID
-                                            </Heading>
-                                            <Text pt='2' fontSize='sm'>
-                                                {selectedProduct.id}
-                                            </Text>
-                                        </Box>
-                                        <Box>
-                                            <Heading size='xs' textTransform='uppercase'>
-                                                Título
-                                            </Heading>
-                                            <Text pt='2' fontSize='sm'>
-                                                {selectedProduct.modelo}
-                                            </Text>
-                                        </Box>
-                                        <Box>
-                                            <Heading size='xs' textTransform='uppercase'>
-                                                Precio
-                                            </Heading>
-                                            <Text pt='2' fontSize='sm'>
-                                                {selectedProduct.precio}
-                                            </Text>
-                                        </Box>
-                                    </Stack>
-                                    <Button textAlign='center' onClick={() => setSelectedProduct(null)}>
-                                        Cerrar
-                                    </Button>
-                                </CardBody>
-                            </Card>
-                        </Flex>
-                    )}
-                </AnimatePresence>
+                <DataTable products={products} />
             </main>
         </>
     );
