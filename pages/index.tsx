@@ -2,6 +2,7 @@ import api from '@/product/api';
 import Head from 'next/head';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import DataTable from './DataTable';
+import { Box, Text } from '@chakra-ui/react';
 
 function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
@@ -13,7 +14,9 @@ function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProp
                 <link rel='icon' href='/favicon.ico' />
             </Head>
             <main>
-                <h1>Gestión con Google Sheets</h1>
+                <Box textAlign='center' my={4}>
+                    <Text color='text'>Gestión con Google Sheets</Text>
+                </Box>
                 <DataTable products={products} />
             </main>
         </>

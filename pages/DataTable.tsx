@@ -50,7 +50,9 @@ const DataTable = ({ products }: Props) => {
                                         <Td>{product.modelo}</Td>
                                         <Td isNumeric>{product.precio}</Td>
                                         <Td>
-                                            <Button onClick={() => setSelectedProduct(product)}>Ver</Button>
+                                            <Button colorScheme='teal' onClick={() => setSelectedProduct(product)}>
+                                                Detalle
+                                            </Button>
                                         </Td>
                                     </Tr>
                                 ))}
@@ -108,7 +110,9 @@ const DataTable = ({ products }: Props) => {
                                 </Stack>
                             </CardBody>
                             <CardFooter display='flex' justifyContent='center'>
-                                <Button onClick={() => setSelectedProduct(null)}>Cerrar</Button>
+                                <Button colorScheme='teal' onClick={() => setSelectedProduct(null)}>
+                                    Cerrar
+                                </Button>
                             </CardFooter>
                         </Card>
                     </Flex>

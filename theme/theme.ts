@@ -4,6 +4,7 @@ export default extendTheme({
     colors: {
         primary: 'red',
         secondary: 'blue',
+        text: '#f5f5f5',
     },
     styles: {
         global: {
