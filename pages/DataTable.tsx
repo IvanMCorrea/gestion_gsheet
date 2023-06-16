@@ -42,18 +42,20 @@ const DataTable = ({ products }: InferGetServerSidePropsType<typeof getServerSid
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {products.map((product: Product) => (
-                                    <Tr key={product.id}>
-                                        <Td>{product.id}</Td>
-                                        <Td>{product.modelo}</Td>
-                                        <Td isNumeric>{product.precio}</Td>
-                                        <Td>
-                                            <Button colorScheme='teal' onClick={() => setSelectedProduct(product)}>
-                                                Detalle
-                                            </Button>
-                                        </Td>
-                                    </Tr>
-                                ))}
+                                {products &&
+                                    products[0] &&
+                                    products.map((product: Product) => (
+                                        <Tr key={product.id}>
+                                            <Td>{product.id}</Td>
+                                            <Td>{product.modelo}</Td>
+                                            <Td isNumeric>{product.precio}</Td>
+                                            <Td>
+                                                <Button colorScheme='teal' onClick={() => setSelectedProduct(product)}>
+                                                    Detalle
+                                                </Button>
+                                            </Td>
+                                        </Tr>
+                                    ))}
                             </Tbody>
                         </Table>
                     </TableContainer>
