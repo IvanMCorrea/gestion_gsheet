@@ -22,12 +22,10 @@ import {
 } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/product/type';
+import api from '@/product/api';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-interface Props {
-    products: Product[];
-}
-
-const DataTable = ({ products }: Props) => {
+const DataTable = ({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     return (
         <>
@@ -120,6 +118,15 @@ const DataTable = ({ products }: Props) => {
             </AnimatePresence>
         </>
     );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    const products = await api.list();
+    return {
+        props: {
+            products,
+        },
+    };
 };
 
 export default DataTable;
