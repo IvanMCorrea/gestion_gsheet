@@ -17,7 +17,7 @@ function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProp
                 <Box textAlign='center' my={4}>
                     <Text color='text'>Gestión con Google Sheets</Text>
                 </Box>
-                <DataTable products={products} />
+                {products && <DataTable products={products} />}
             </main>
         </>
     );
