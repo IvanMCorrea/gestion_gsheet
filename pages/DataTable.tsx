@@ -1,22 +1,26 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import {
     Box,
     Button,
     Card,
     CardBody,
+    CardFooter,
     CardHeader,
     Container,
     Flex,
-    Grid,
-    GridItem,
-    HStack,
     Heading,
     Stack,
     StackDivider,
+    Table,
+    TableContainer,
+    Tbody,
+    Td,
     Text,
-    VStack,
+    Th,
+    Thead,
+    Tr,
 } from '@chakra-ui/react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/product/type';
 
 interface Props {
@@ -27,40 +31,32 @@ const DataTable = ({ products }: Props) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     return (
         <>
-            <Container as={Card} minHeight='container.md' maxWidth='container.xl' padding={4}>
+            <Container as={Card} minHeight='container.sm' maxWidth='container.xl' padding={2}>
                 <CardBody>
-                    <VStack alignItems='left'>
-                        <Grid gridTemplateColumns='1fr 5fr 1fr 1fr' gap={6}>
-                            <GridItem>
-                                <Text>ID</Text>
-                            </GridItem>
-                            <GridItem>
-                                <Text>Nombre de producto</Text>
-                            </GridItem>
-                            <GridItem>
-                                <Text>Precio</Text>
-                            </GridItem>
-                            <GridItem>
-                                <Text>Acciones</Text>
-                            </GridItem>
-                            {products.map((product: Product) => (
-                                <Fragment key={product.id}>
-                                    <GridItem>
-                                        <Text>{product.id}</Text>
-                                    </GridItem>
-                                    <GridItem>
-                                        <Text>{product.modelo}</Text>
-                                    </GridItem>
-                                    <GridItem>
-                                        <Text>{product.precio}</Text>
-                                    </GridItem>
-                                    <GridItem>
-                                        <Button onClick={() => setSelectedProduct(product)}>Ver</Button>
-                                    </GridItem>
-                                </Fragment>
-                            ))}
-                        </Grid>
-                    </VStack>
+                    <TableContainer>
+                        <Table size='sm'>
+                            <Thead>
+                                <Tr>
+                                    <Th>ID</Th>
+                                    <Th>Nombre de producto</Th>
+                                    <Th isNumeric>Precio</Th>
+                                    <Th>Acciones</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {products.map((product: Product) => (
+                                    <Tr key={product.id}>
+                                        <Td>{product.id}</Td>
+                                        <Td>{product.modelo}</Td>
+                                        <Td isNumeric>{product.precio}</Td>
+                                        <Td>
+                                            <Button onClick={() => setSelectedProduct(product)}>Ver</Button>
+                                        </Td>
+                                    </Tr>
+                                ))}
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
                 </CardBody>
             </Container>
             <AnimatePresence initial={false}>
@@ -79,12 +75,12 @@ const DataTable = ({ products }: Props) => {
                         height='100%'
                         backgroundColor='rgba(0,0,0,0.8)'
                     >
-                        <Card>
+                        <Card minWidth='md'>
                             <CardHeader>
                                 <Heading size='md'>{selectedProduct.modelo}</Heading>
                             </CardHeader>
                             <CardBody>
-                                <Stack divider={<StackDivider />} spacing='4' mb={4}>
+                                <Stack divider={<StackDivider />} spacing='4'>
                                     <Box>
                                         <Heading size='xs' textTransform='uppercase'>
                                             ID
@@ -110,10 +106,10 @@ const DataTable = ({ products }: Props) => {
                                         </Text>
                                     </Box>
                                 </Stack>
-                                <Button textAlign='center' onClick={() => setSelectedProduct(null)}>
-                                    Cerrar
-                                </Button>
                             </CardBody>
+                            <CardFooter display='flex' justifyContent='center'>
+                                <Button onClick={() => setSelectedProduct(null)}>Cerrar</Button>
+                            </CardFooter>
                         </Card>
                     </Flex>
                 )}
