@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import DataTable from './DataTable';
 import { Box, Text } from '@chakra-ui/react';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import api from '@/product/api';
 
-function Home() {
+function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <>
             <Head>
@@ -15,9 +17,19 @@ function Home() {
                 <Box textAlign='center' my={4}>
                     <Text color='text'>Gestión con Google Sheets</Text>
                 </Box>
-                <DataTable />
+                <DataTable products={products} />
             </main>
         </>
     );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    const products = await api.list();
+    return {
+        props: {
+            products,
+        },
+    };
+};
+
 export default Home;
