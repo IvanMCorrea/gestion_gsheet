@@ -47,7 +47,9 @@ const DataTable = ({ products }: Props) => {
 
     const handleFilterProducts = (e: any) => {
         setSearch(e.target.value);
-        setFilteredProducts(() => products.filter((prod) => prod.modelo.includes(e.target.value)));
+        setFilteredProducts(() =>
+            products.filter((prod) => prod.modelo.toLowerCase().includes(e.target.value.toLowerCase()))
+        );
     };
     return (
         <>
