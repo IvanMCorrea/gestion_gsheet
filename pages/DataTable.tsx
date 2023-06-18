@@ -9,6 +9,10 @@ import {
     Container,
     Flex,
     Heading,
+    Input,
+    InputGroup,
+    InputLeftElement,
+    SlideFade,
     Stack,
     StackDivider,
     Table,
@@ -22,6 +26,7 @@ import {
 } from '@chakra-ui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '@/product/type';
+import { Search2Icon } from '@chakra-ui/icons';
 
 type Props = {
     products: Product[];
@@ -29,6 +34,8 @@ type Props = {
 
 const DataTable = ({ products }: Props) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [filteredProducts, setFilteredProducts] = useState<Product[] | undefined>(products);
+    const [search, setSearch] = useState<string>('');
     const productDetails = [
         { title: 'ID', value: selectedProduct?.id },
         { title: 'Categoría', value: selectedProduct?.categoria },
@@ -37,8 +44,27 @@ const DataTable = ({ products }: Props) => {
         { title: 'Precio', value: selectedProduct?.precio },
         { title: 'Stock', value: selectedProduct?.stock },
     ];
+
+    const handleFilterProducts = (e: any) => {
+        setSearch(e.target.value);
+        setFilteredProducts(() => products.filter((prod) => prod.modelo.includes(e.target.value)));
+    };
     return (
         <>
+            <Container maxWidth='container.xl' mb={4} padding={0}>
+                <InputGroup>
+                    <InputLeftElement pointerEvents='none'>
+                        <Search2Icon color='gray.300' />
+                    </InputLeftElement>
+                    <Input
+                        type='text'
+                        placeholder='Filtrar por nombre de producto'
+                        value={search}
+                        onChange={handleFilterProducts}
+                        bg='white'
+                    />
+                </InputGroup>
+            </Container>
             <Container as={Card} minHeight='container.sm' maxWidth='container.xl' padding={2}>
                 <CardBody>
                     <TableContainer>
@@ -52,20 +78,25 @@ const DataTable = ({ products }: Props) => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {products &&
-                                    products[0] &&
-                                    products.map((product: Product) => (
-                                        <Tr key={product.id}>
-                                            <Td>{product.id && product.id}</Td>
-                                            <Td>{product.modelo && product.modelo}</Td>
-                                            <Td isNumeric>{product.precio && product.precio}</Td>
-                                            <Td>
-                                                <Button colorScheme='teal' onClick={() => setSelectedProduct(product)}>
-                                                    Detalle
-                                                </Button>
-                                            </Td>
-                                        </Tr>
-                                    ))}
+                                <AnimatePresence>
+                                    {filteredProducts &&
+                                        filteredProducts[0] &&
+                                        filteredProducts.map((product: Product) => (
+                                            <Tr as={motion.tr} layout key={product.id}>
+                                                <Td>{product.id && product.id}</Td>
+                                                <Td>{product.modelo && product.modelo}</Td>
+                                                <Td isNumeric>{product.precio && product.precio}</Td>
+                                                <Td>
+                                                    <Button
+                                                        colorScheme='teal'
+                                                        onClick={() => setSelectedProduct(product)}
+                                                    >
+                                                        Detalle
+                                                    </Button>
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                </AnimatePresence>
                             </Tbody>
                         </Table>
                     </TableContainer>
