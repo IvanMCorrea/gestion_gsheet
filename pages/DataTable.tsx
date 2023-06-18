@@ -29,6 +29,14 @@ type Props = {
 
 const DataTable = ({ products }: Props) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const productDetails = [
+        { title: 'ID', value: selectedProduct?.id },
+        { title: 'Categoría', value: selectedProduct?.categoria },
+        { title: 'Descripcion', value: selectedProduct?.descripcion },
+        { title: 'Marca', value: selectedProduct?.marca },
+        { title: 'Precio', value: selectedProduct?.precio },
+        { title: 'Stock', value: selectedProduct?.stock },
+    ];
     return (
         <>
             <Container as={Card} minHeight='container.sm' maxWidth='container.xl' padding={2}>
@@ -48,9 +56,9 @@ const DataTable = ({ products }: Props) => {
                                     products[0] &&
                                     products.map((product: Product) => (
                                         <Tr key={product.id}>
-                                            <Td>{product.id}</Td>
-                                            <Td>{product.modelo}</Td>
-                                            <Td isNumeric>{product.precio}</Td>
+                                            <Td>{product.id && product.id}</Td>
+                                            <Td>{product.modelo && product.modelo}</Td>
+                                            <Td isNumeric>{product.precio && product.precio}</Td>
                                             <Td>
                                                 <Button colorScheme='teal' onClick={() => setSelectedProduct(product)}>
                                                     Detalle
@@ -81,34 +89,20 @@ const DataTable = ({ products }: Props) => {
                     >
                         <Card minWidth='md'>
                             <CardHeader>
-                                <Heading size='md'>{selectedProduct.modelo}</Heading>
+                                <Heading size='md'>{selectedProduct.modelo && selectedProduct.modelo}</Heading>
                             </CardHeader>
                             <CardBody>
-                                <Stack divider={<StackDivider />} spacing='4'>
-                                    <Box>
-                                        <Heading size='xs' textTransform='uppercase'>
-                                            ID
-                                        </Heading>
-                                        <Text pt='2' fontSize='sm'>
-                                            {selectedProduct.id}
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Heading size='xs' textTransform='uppercase'>
-                                            Título
-                                        </Heading>
-                                        <Text pt='2' fontSize='sm'>
-                                            {selectedProduct.modelo}
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Heading size='xs' textTransform='uppercase'>
-                                            Precio
-                                        </Heading>
-                                        <Text pt='2' fontSize='sm'>
-                                            {selectedProduct.precio}
-                                        </Text>
-                                    </Box>
+                                <Stack divider={<StackDivider />} spacing='2'>
+                                    {productDetails?.map((det) => (
+                                        <Box>
+                                            <Heading size='xs' textTransform='uppercase'>
+                                                {det.title}
+                                            </Heading>
+                                            <Text pt='2' fontSize='sm'>
+                                                {det.value}
+                                            </Text>
+                                        </Box>
+                                    ))}
                                 </Stack>
                             </CardBody>
                             <CardFooter display='flex' justifyContent='center'>
