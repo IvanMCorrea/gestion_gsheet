@@ -94,7 +94,7 @@ const DataTable = ({ products }: Props) => {
                             <CardBody>
                                 <Stack divider={<StackDivider />} spacing='2'>
                                     {productDetails?.map((det) => (
-                                        <Box>
+                                        <Box key={det.title}>
                                             <Heading size='xs' textTransform='uppercase'>
                                                 {det.title}
                                             </Heading>
