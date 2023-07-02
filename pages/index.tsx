@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import DataTable from './DataTable';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import api from '@/product/api';
 
@@ -15,9 +15,9 @@ function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProp
             </Head>
             <main>
                 <Box textAlign='center' my={4}>
-                    <Text color='text' fontWeight='semibold' fontSize={24}>
+                    <Heading as='h1' color='text' fontWeight='semibold' fontSize={24}>
                         Gestión con Google Sheets
-                    </Text>
+                    </Heading>
                 </Box>
                 <DataTable products={products} />
             </main>
